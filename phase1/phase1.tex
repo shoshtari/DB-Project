@@ -1,0 +1,214 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=0.5in,]{geometry}
+
+\usepackage{graphicx}
+\usepackage{setspace}
+
+\setcounter{tocdepth}{4}
+\usepackage{xepersian}
+\settextfont{Vazirmatn-Medium}
+
+\begin{document}
+%	\begin{center}
+%		\includegraphics[scale=0.5]{bism.png}
+%	\end{center}
+	\begin{center}
+		بسمه تعالی
+	\end{center}
+
+	~\\
+	\setlength{\tabcolsep}{64pt}
+	\Large
+	
+	\begin{center}
+		
+		پروژه پایگاه داده (پروژه :۳۲ آژانس کاریابی) فاز اول
+		\newline
+		Domain Description
+		~\\
+		~\\
+		~\\
+		~\\
+		
+		
+		\begin{tabular}{ c c }
+مرتضی ملکی نژاد شوشتری & ۴۰۰۵۲۲۲۱۱ \\
+سیدعلی کمالی پرگو & ۴۰۰۵۲۲۱۴۸ \\ 
+علی اکبر غلام زاده & ۴۰۰۵۲۲۰۹۴ 
+		\end{tabular}
+	\end{center}
+	
+	\begin{center}
+		
+	\end{center}
+
+
+
+	\onehalfspacing
+	\normalsize
+	\tableofcontents
+	\newpage
+	\section{توضیح پروژه}
+
+			% \includegraphics[scale=0.8]{question.png}
+			هدف از این پروژه این است که یک آژانس کاریابی به عنوان واسط بین شرکت هایی که به دنبال استخدام کارمند هستند و افرادی که به دنبال کار هستند عمل کند. آژانس کاریابی می تواند با ارائه لیست کارجو ها که دارای یک یا چند مهارت با مشخصات فردی (وضعیت تاهل – تحصیلات - جنسیت) مشخص هستند به کارفرما هم برای کارجو و هم برای کارفرما راحتی را فراهم اورد. آژانس کاریابی قادر خواهد بود اطلاعات و مشخصات مربوط به کارجویان را در پایگاه داده خود ذخیره کند و با هوش مصنوعی و الگوریتم های خودکار، متناسب با نیازهای شرکت هایی که به دنبال استخدام هستند، فهرستی از کارجویان مناسب را ارائه دهد. در این راستا، کارجویان نیز می توانند از ویژگی های آژانس کاریابی استفاده کنند و آگهی های شغلی مرتبط با تخصص هایشان را پیدا کنند و درخواست خود را برای شغل مورد نظر ارسال کنند. در نتیجه، هدف اصلی این پروژه، ایجاد ارتباطی سریع و آسان بین شرکت های خواستار جذب نیرو و کارجویان با تخصص های مشخص است. 
+			
+
+	
+	\section{Entities}
+	در این سیستم موجودیت های زیر مورد توجه قرار دارند:
+		\subsection{کارمند (کارجو)}
+ این موجودیت به دنبال کار میگردد و باید بتواند کارهای مطلوب خود را پیدا کند و برای پذیرش درخواست ارسال کند.
+ \begin{itemize}
+ \item آیدی
+\item نام و نام خانوادگی (نام کامل)
+\item تاریخ تولد
+\item کد ملی (آیدی)
+\item ایمیل
+\item محل سکونت فعلی (استان)
+\item وضعیت تاهل (مجرد / متاهل)
+\item تحصیلات
+\item رشته تحصیلی
+\item وضعیت اشتغال ( رسمی / قراردادی / پاره وقت / پروژه ای)
+\item جنسیت (مذکر / مونث)
+\item تعداد فرزندان
+\item آیا به دنبال شغل است؟ (بله / خیر)
+\item شماره تماس
+\item آدرس
+\item مهارت ها
+\item امتیاز
+\item سطح (جونیور / مید لول/ سینیور /تیم لید .... )
+\item سابقه کار
+
+ \end{itemize}
+ 
+		\subsection{کارفرما}
+		این موجودیت میتواند کار را تعریف کند و سپس اطلاعات کارجوهایی که برای آن کار درخواست داده‌اند را ببیند.
+\begin{itemize}
+
+
+\item آیدی
+\item نام کامل (شخص یا شرکت )
+\item شماره تماس
+\item ایمیل
+\item آدرس شرکت
+\item نوع کارفرما (حقیقی / حقوقی)
+\end{itemize}
+	\subsection{مهارت ها}
+	\begin{itemize}
+		\item آیدی
+		\item نام مهارت
+		\item نوع مهارت (مهارت نرم یا مهارت فنی)
+\end{itemize}
+
+	\subsection{کار}
+	 کار توسط کارفرما تعیین می‌شود و با توجه به ویژگی‌های مختلف کار (مثل مهارت های مورد نیاز، حقوق، مزایا، امکان دورکاری) باید بتواند با کارجو مچ شود 
+	 \begin{itemize}
+	 	        \item آیدی
+	 	\item عنوان
+	 	\item توضیحات
+	 	\item مهارت های مورد نیاز
+	 	\item محل کار
+	 	\item تاریخ ثبت
+	 	\item حقوق پیشنهادی (حداقل / حداکثر)
+	 	\item امکان دور کاری
+	 	\item مزایای کاری
+	 	\item سطح کارجو (جونیور / سینیور)
+	 	\item باز بودن (قابلیت تلاش برای گرفتن کار)
+	 	\item جنسیت مورد نیاز (آقا/خانم/فاقد اهمیت)
+	 	\item حداقل شرایط تحصیلی
+	\end{itemize}
+\subsection{سابقه کار}
+سوابق کاری کارجو که میتواند چندین مورد باشد
+\begin{itemize}
+	        \item عنوان
+	\item زمان شروع
+	\item زمان پایان (ممکن است تا زمان حال باشد)
+	\item سطح کارمند در زمان کار
+	\item مهارت های مرتبط
+\end{itemize}
+\section{Relation}
+\subsection{گرفتن کار}
+ \begin{itemize}
+ 	        \item کارجو
+ 	\item کار
+\end{itemize}
+\subsection{تعریف کار جدید}
+\begin{itemize}
+        \item کارفرما
+\item کار
+\end{itemize}
+\subsection{اضافه کردن سابقه کار}
+\begin{itemize}
+                \item کارجو
+\item سابقه کار
+
+\end{itemize}
+\subsection{اضافه کردن مهارت}
+\begin{itemize}
+                        \item کارجو
+\item مهارت
+
+\end{itemize}
+\subsection{جستجو برای کار }
+		\begin{itemize}
+			                \item کارجو
+			\item  کار
+		\end{itemize}
+\subsection{بستن یک کار}
+\begin{itemize}
+	\item کارفرما
+	\item کار
+\end{itemize}
+\section{some of queries}
+\begin{enumerate}
+\item                         دریافت کار های مرتبط با مهارت های تعیین شده
+\item اپلای برای گرفتن کار
+\item ایجاد کار توسط کار فرما
+\item بستن کار توسط کارفرما (حذف آگهی یا حذف نمایش آگهی یا تعیین به حالت پذیرش)
+\item تعریف سابقه شغلی جدید کارجو
+\item دیدن کارجو هایی که تلاش برای گرفتن یک کار تعریف شده کردند توسط کارفرمای آن کار
+\item ثبت نام و ویرایش کارجو
+\item ثبت نام و ویرایش کارفرما
+\item برترین کارفرما ها از نظر امتیاز
+\item اطلاعات شرکت هایی که یک شغل خاص را می طلبند
+\item آگهی های جدیدتر در یک منطقه خاص
+\item دریافت کارجو های با بیش از n سال سابقه و جنسیت خاص یا یک سطح خاص
+\item دریافت کارهایی که توسط یک کارفرمای حقیقی یا حقوقی ایجاد شده
+\item ثبت امتیاز برای کارفرما توسط کارجویی که استخدام شده
+
+\end{enumerate}
+	\newpage
+%	\begin{figure}[h]
+%		\caption{نمودار کلی مدار}
+%		\centering
+%		\includegraphics[scale=0.5]{chart.jpg}
+%
+%		\caption{مدار طراحی شده در پروتئوس}
+%		\centering
+%		\includegraphics[scale=0.4]{pro.jpg}
+%		
+%	\end{figure}
+
+%	\paragraph{پاراگراف}
+%	\hfill
+%	
+%	\section{بررسی کتاب}
+%	\begin{enumerate}
+%		\item یک
+%		\item دو
+%	\end{enumerate}
+	
+	
+	 	
+%\end{itemize}
+%\begin{tabular}{| c | c | c |}
+%\hline 
+%salam & b & a \\
+%a1 & 2 &3 \\
+%
+%\hline 
+%\end{tabular}
+	
+\end{document}
