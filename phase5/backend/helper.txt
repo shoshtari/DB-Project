@@ -1,0 +1,36 @@
+
+get users list
+GET /users
+
+insert new user ( contain related jobs )
+POST /users
+
+update user
+PUT /users/:id
+
+delete user
+DELETE /users/:id
+
+get jobs list
+GET /jobs
+
+insert new job
+POST /jobs
+
+update job
+PUT /jobs/:id
+
+delete job
+DELETE /jobs/:id
+
+get skills list
+GET /skills
+
+insert new skill
+POST /skills
+
+update skill
+PUT /skills/:id
+
+delete skill
+DELETE /skills/:id

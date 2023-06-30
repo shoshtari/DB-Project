@@ -13,11 +13,12 @@ app_name = "api"
 router = routers.SimpleRouter()
 router.register(r'users', UserViewSET, basename="users")
 router.register(r'jobs', JobViewSET, basename="jobs")
+router.register(r'skills', SkillViewSET, basename="skills")
 router.register(r'joboffers', JobOfferViewSET, basename="joboffers")
 router.register(r'scores', ScoreViewSET, basename="scores")
-router.register(r'skills', SkillViewSET, basename="skills")
 
 # urlpatterns = router.urls
 urlpatterns = [
-    path("", include(router.urls))
+    path("", include(router.urls)),
+    path("search/", include("rest_framework.urls")),
 ]

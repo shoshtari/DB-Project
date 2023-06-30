@@ -1,13 +1,7 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, Serializer
 from jobs.models import Job, Score, Skill, JobOffer
 from django.contrib.auth import get_user_model
 from drf_dynamic_fields import DynamicFieldsMixin
-
-class UserSerializer(DynamicFieldsMixin, ModelSerializer):
-    class Meta:
-        model = get_user_model()
-        fields = "__all__" 
-
 
 class JobSerializer(DynamicFieldsMixin, ModelSerializer):
     # author = AuthorSerializer()
@@ -23,6 +17,18 @@ class JobSerializer(DynamicFieldsMixin, ModelSerializer):
     class Meta:
         model = Job
         fields = "__all__"
+
+class UserSerializer(DynamicFieldsMixin, ModelSerializer):
+    
+    def get_jobs(self, obj):
+        skills = obj.skills.all()
+        jobs = Job.objects.filter(skills__in=skills)
+        return jobs.values()
+    
+    jobs = SerializerMethodField("get_jobs")
+    class Meta:
+        model = get_user_model()
+        fields = "__all__" 
 
 class JobOfferSerializer(DynamicFieldsMixin, ModelSerializer):
     class Meta:
