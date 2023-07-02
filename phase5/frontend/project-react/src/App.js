@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import {Box, Button,Checkbox,Select, TextInput } from '@mantine/core';
+import {Box, Button,Checkbox,Select, TextInput, Table } from '@mantine/core';
+
 import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 
@@ -9,6 +10,7 @@ const INSERT_JOB = "INSERT_JOB"
 const ADD_REQUIREMENT = "ADD_REQUIREMENT"
 const ADD_SKILL = "ADD_SKILL"
 const GET_JOB = "GET_JOB"
+const SHOW_JOBS = "SHOW_JOB"
 
 const BASE_URL = "http://localhost:8000/api/"
 
@@ -283,28 +285,62 @@ const AddSkill = () => {
 
 }
 
+async function  getJobsFromApi(user_id){
+  let url = BASE_URL + "users/" + user_id + "/"
+  let response = await fetch(url)
+  let user = await response.json()
+
+  return user.jobs
+}
 const GetJobs = () => {
   const form = useForm({
     initialValues: {
       user_id: 0,
-      skill_name: ""
     }
   });
+  const [view, setView] = useState(NONE);
+  const [jobs, setJobs] = useState([]);
 
-  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+  return view===NONE?(<form onSubmit={form.onSubmit( async (values) => {
+    let jobs = await getJobsFromApi(values.user_id)
+    setJobs(jobs)
+    setView(SHOW_JOBS)
+    
+  })}>   
     <TextInput label="user id" placeholder="user id" {...form.getInputProps('user_id')} />
-    <Select
-      mt="md"
-      withinPortal
-      data={skills}
-      placeholder="Django"
-      label="skills"
-      {...form.getInputProps('skill_name')}
-    />
     
     <Button mt='lg' type='submit'>Retrieve</Button>
-  </form>
+  </form>):<ShowJobs jobs={jobs}/>
 
+}
+
+const ShowJobs = ({jobs}) => {
+  console.log("JOBS", jobs)
+  if (jobs.length==0){
+    alert("there is no job")
+  }
+
+  const rows = jobs.map((element) => (
+    <tr key={element.id}>
+      <td>{element.id}</td>
+      <td>{element.title}</td>
+
+    </tr>
+  ));
+
+  return (
+    <Box style={{width:400}}>
+    <Table >
+      <thead>
+        <tr>
+          <th>Element ID</th>
+          <th>Element name</th>
+        </tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </Table>
+    </Box>
+  )
 }
 
 const mapViewToComponents = {
@@ -314,6 +350,7 @@ const mapViewToComponents = {
   [ADD_REQUIREMENT]: AddRequirement,
   [ADD_SKILL]: AddSkill,
   [GET_JOB]: GetJobs,
+  [SHOW_JOBS]: ShowJobs,
 }
 
 function App() {
