@@ -1,5 +1,7 @@
 from jobs.models import Job, Score, Skill, JobOffer
 from django.contrib.auth import get_user_model
+from django.views.decorators.csrf import csrf_exempt
+from braces.views import CsrfExemptMixin
 
 from .serializers import UserSerializer, JobSerializer, JobOfferSerializer, ScoreSerializer, SkillSerializer
 # from .permissions import (
@@ -9,7 +11,8 @@ from .serializers import UserSerializer, JobSerializer, JobOfferSerializer, Scor
 
 from rest_framework.viewsets import ModelViewSet
 
-class UserViewSET(ModelViewSet):
+class UserViewSET(CsrfExemptMixin, ModelViewSet):
+    authentication_classes = []
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
