@@ -116,6 +116,7 @@ const InsertJob = () => {
   const form = useForm({
     initialValues: {
       title: '',
+      employer: '',
       description: '',
       employer: '',
       address:"",
@@ -126,7 +127,14 @@ const InsertJob = () => {
   
   return <form onSubmit={form.onSubmit( async (values) => {
     let url = BASE_URL + "jobs/"
-    values.required_gender = values.required_gender === "Male" ? 0 : 1
+    switch(values.required_gender){
+      case "None":
+        values.required_gender = 0
+      case "Male":
+        values.required_gender = 1
+      case "Female":
+        values.required_gender = 2
+    }
 
     let response = await fetch(url, {
       method: 'POST',
@@ -140,11 +148,12 @@ const InsertJob = () => {
     if (response.status !== 201){
       alert('fail')
     } else{
-      alert('job inserted with id: ' + response.id)
+      alert('job inserted with id: ' + data.id)
     }
     console.log(data)
   })}>          
           <TextInput label="title" placeholder="title"  {...form.getInputProps('title')} />
+          <TextInput label="employer" placeholder="employer"  {...form.getInputProps('employer')} />
           <TextInput label="description" placeholder="description"  {...form.getInputProps('description')} />
           <TextInput label="address"  placeholder="Tehran, Iran"  {...form.getInputProps('address')} />    
           <Select
@@ -183,13 +192,36 @@ function find_skill_id(skill_name){
 const AddRequirement = () => {
   const form = useForm({
     initialValues: {
-      job_id: 0,
+      id: 0,
       skill_name: ""
     }
   });
 
-  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
-          <TextInput label="job id" placeholder="job id" {...form.getInputProps('job_id')} />
+  return <form onSubmit={form.onSubmit( async (values) => {
+    let url = BASE_URL + "jobs/" + values.id + "/"
+    let job = await fetch(url).then(res => res.json())    
+    let skill_id = find_skill_id(values.skill_name)
+    console.log(job)
+    job.skills.push(skill_id)
+    console.log(job.skills)
+    let response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(job)
+    })
+
+    let data = await response.json()
+    // checking status code
+    if (response.status !== 200){
+      alert('fail with status: ' + response.status)
+    } else{
+      alert('job updated')
+    }
+    console.log(data)
+  })}>   
+          <TextInput label="job id" placeholder="job id" {...form.getInputProps('id')} />
           <Select
             mt="md"
             withinPortal
@@ -202,6 +234,7 @@ const AddRequirement = () => {
   </form>
 
 }
+
 const AddSkill = () => {
   const form = useForm({
     initialValues: {
@@ -249,6 +282,7 @@ const AddSkill = () => {
   </form>
 
 }
+
 const GetJobs = () => {
   const form = useForm({
     initialValues: {
