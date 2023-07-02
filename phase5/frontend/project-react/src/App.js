@@ -40,7 +40,6 @@ const InsertUser = () => {
       phone_number:"",
       email_address:"",
       degree:"",
-      birth_date:"",
     }
   });
   
@@ -48,9 +47,9 @@ const InsertUser = () => {
     let url = BASE_URL + "users/"
     values.gender = values.gender === "Male" ? 0 : 1
     // converting values birth date
-    if (values.birth_date !== null){
-      values.birth_date = values.birth_date.toI1SOString().split('T')[0]
-    }
+    // if (values.birth_date !== null){
+    //   values.birth_date = values.birth_date.toI1SOString().split('T')[0]
+    // }
     // console.log(values.birth_date.toISOString().split('T')[0])
 
     let response = await fetch(url, {
@@ -63,9 +62,9 @@ const InsertUser = () => {
     let data = await response.json()
     // checking status code
     if (response.status !== 201){
-      // alert('fail')
+      alert('fail')
     } else{
-      // alert('user inserted with id: ' + data.id)
+      alert('user inserted with id: ' + data.id)
     }
     console.log(data)
   })}>
@@ -101,14 +100,6 @@ const InsertUser = () => {
             mr="xl"
             styles={{ input: { cursor: 'pointer' } }}
             {...form.getInputProps('is_working')}
-          />
-          <DatePickerInput
-            mt="md"
-            popoverProps={{ withinPortal: true }}
-            label="Bitrh Date"
-            placeholder="Your Birth Date"
-            clearable={true}
-            {...form.getInputProps('birth_date')}
           />
           <Button mt='lg' type='submit'>Submit</Button>
   </form>
