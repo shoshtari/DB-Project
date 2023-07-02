@@ -14,11 +14,11 @@ const GET_JOB = "GET_JOB"
 const NonView = ({handleUpdateView}) => {
   return (
     <Box sx={{display:"flex", gap:16,}}>
-      <Button onClick={()=>handleUpdateView(INSERT_USER)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>{INSERT_USER}</Button>
-      <Button onClick={()=>handleUpdateView(INSERT_JOB)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>{INSERT_JOB}</Button>
-      <Button onClick={()=>handleUpdateView(ADD_REQUIREMENT)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>{ADD_REQUIREMENT}</Button>
-      <Button onClick={()=>handleUpdateView(ADD_SKILL)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>{ADD_SKILL}</Button>
-      <Button onClick={()=>handleUpdateView(GET_JOB)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>{GET_JOB}</Button>
+      <Button onClick={()=>handleUpdateView(INSERT_USER)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Insert User</Button>
+      <Button onClick={()=>handleUpdateView(INSERT_JOB)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Insert Job</Button>
+      <Button onClick={()=>handleUpdateView(ADD_REQUIREMENT)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Add Requirement</Button>
+      <Button onClick={()=>handleUpdateView(ADD_SKILL)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Add Skill</Button>
+      <Button onClick={()=>handleUpdateView(GET_JOB)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Get Job</Button>
     </Box>
   )
 
@@ -147,14 +147,79 @@ const InsertJob = () => {
   </form>
 
 }
+let skills = ['New', 'Backend', 'Frontend', 'Django', 'React', 'Devops']
+
 const AddRequirement = () => {
-  return ADD_REQUIREMENT
+  const form = useForm({
+    initialValues: {
+      job: {
+        job_id: 0,
+        skill_name: ""
+      },
+    }
+  });
+
+  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
+          <TextInput label="job id" placeholder="job id"  />
+          <Select
+            mt="md"
+            withinPortal
+            data={skills}
+            placeholder="Django"
+            label="skills"
+          />
+          
+          <Button mt='lg' type='submit'>Submit</Button>
+  </form>
+
 }
 const AddSkill = () => {
-  return ADD_SKILL
+  const form = useForm({
+    initialValues: {
+      job: {
+        user_id: 0,
+        skill_name: ""
+      },
+    }
+  });
+
+  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
+          <TextInput label="user id" placeholder="user id"  />
+          <Select
+            mt="md"
+            withinPortal
+            data={skills}
+            placeholder="Django"
+            label="skills"
+          />
+          
+          <Button mt='lg' type='submit'>Submit</Button>
+  </form>
+
 }
 const GetJobs = () => {
-  return GET_JOB
+  const form = useForm({
+    initialValues: {
+      user: {
+        user_id: 0,
+        skill_name: ""
+      },
+    }
+  });
+
+  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
+          <TextInput label="user id" placeholder="user id"  />
+          <Select
+            mt="md"
+            withinPortal
+            data={skills}
+            placeholder="Django"
+            label="skills"
+          />
+          
+          <Button mt='lg' type='submit'>Retrieve</Button>
+  </form>
+
 }
 
 const mapViewToComponents = {
