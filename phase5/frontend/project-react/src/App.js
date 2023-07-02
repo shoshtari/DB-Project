@@ -181,17 +181,26 @@ const InsertJob = () => {
   </form>
 
 }
-function get_skills(){
-  let url = BASE_URL + "skills/"
-  let skills = []
-  fetch(url).then(res => res.json()).then(data => {
-    data.forEach(skill => {
-      skills.push(skill.name)
-    })
-  })
-  return skills
-}
 
+
+function get_skills_closure(){
+  let skills = []
+
+  return () => {
+    if (skills.length !== 0){
+      return skills
+    }
+    let url = BASE_URL + "skills/"
+    fetch(url).then(res => res.json()).then(data => {
+      data.forEach(skill => {
+        skills.push(skill.name)
+      })
+    })
+    return skills
+  }
+
+}
+const get_skills = get_skills_closure()
 function find_skill_id(skill_name){
   let skills = get_skills()
   for(let i=0;i<skills.length;i++){
