@@ -118,7 +118,6 @@ const InsertJob = () => {
   const form = useForm({
     initialValues: {
       title: '',
-      employer: '',
       description: '',
       employer: '',
       address:"",
