@@ -46,7 +46,9 @@ const InsertUser = () => {
     let url = BASE_URL + "users/"
     values.gender = values.gender === "Male" ? 0 : 1
     // converting values birth date
-    values.birth_date = values.birth_date.toISOString().split('T')[0]
+    if (values.birth_date !== null){
+      values.birth_date = values.birth_date.toI1SOString().split('T')[0]
+    }
     // console.log(values.birth_date.toISOString().split('T')[0])
 
     let response = await fetch(url, {
@@ -115,6 +117,7 @@ const InsertJob = () => {
     initialValues: {
       title: '',
       description: '',
+      employer: '',
       address:"",
       required_gender:"None",
       is_remote:false,
@@ -137,7 +140,7 @@ const InsertJob = () => {
     if (response.status !== 201){
       alert('fail')
     } else{
-      alert('job inserted with id: ' + job.id)
+      alert('job inserted with id: ' + response.id)
     }
     console.log(data)
   })}>          
@@ -180,10 +183,8 @@ function find_skill_id(skill_name){
 const AddRequirement = () => {
   const form = useForm({
     initialValues: {
-      job: {
-        job_id: 0,
-        skill_name: ""
-      },
+      job_id: 0,
+      skill_name: ""
     }
   });
 
@@ -204,13 +205,37 @@ const AddRequirement = () => {
 const AddSkill = () => {
   const form = useForm({
     initialValues: {
-      user_id: 0,
+      id: 0,
       skill_name: ""
     }
   });
 
-  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
-    <TextInput label="user id" placeholder="user id"  {...form.getInputProps('user_id')}/>
+  return <form onSubmit={form.onSubmit( async (values) => {
+    let url = BASE_URL + "users/" + values.id + "/"
+    let user = await fetch(url).then(res => res.json())    
+    // user.skills = user.skills + ',' + find_skill_id(values.skill_name)
+    let skill_id = find_skill_id(values.skill_name)
+    // appending skill id
+    user.skills.push(skill_id)
+    console.log(user.skills)
+    let response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+
+    let data = await response.json()
+    // checking status code
+    if (response.status !== 200){
+      alert('fail with status: ' + response.status)
+    } else{
+      alert('user updated: ')
+    }
+    console.log(data)
+  })}>   
+    <TextInput label="user id" placeholder="user id"  {...form.getInputProps('id')}/>
     <Select
       mt="md"
       withinPortal
