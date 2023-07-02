@@ -333,8 +333,8 @@ const ShowJobs = ({jobs}) => {
     <Table >
       <thead>
         <tr>
-          <th>Element ID</th>
-          <th>Element name</th>
+          <th>Job ID</th>
+          <th>Job Title</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>
