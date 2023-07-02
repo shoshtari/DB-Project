@@ -23,51 +23,37 @@ const NonView = ({handleUpdateView}) => {
   )
 
 }
-// {
-//   "username": "",
-//   "first_name": "",
-//   "last_name": "",
-//   "date_joined": null,
-//   "address": "",
-//   "gender": null,
-//   "birth_date": null,
-//   "is_working": false,
-//   "phone_number": null,
-//   "email_address": null,
-//   "degree": null,
-// }
 
 
 const InsertUser = () => {
   const form = useForm({
     initialValues: {
-      user: {
-        first_name: '',
-        last_name: '',
-        username: "",
-        address:"",
-        gender:"male",
-        is_working:false,
-        phone_number:"",
-        email_address:"",
-        degree:""
-      },
+      first_name: '',
+      last_name: '',
+      username: "",
+      address:"",
+      gender:"male",
+      is_working:false,
+      phone_number:"",
+      email_address:"",
+      degree:""
     }
   });
   
-  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
-          <TextInput label="first_name" placeholder="Folan"  />
-          <TextInput label="last_name" placeholder="Behaman"  />
-          <TextInput label="username" placeholder="username"  />
-          <TextInput label="address"  placeholder="Tehran, Iran"  />
-          <TextInput label="phone_number" type='tel' placeholder="+98123456789"  />
-          <TextInput label="email_address" type="email" placeholder="example@gmail.com"  />
+  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+          <TextInput label="first_name" placeholder="Folan"  {...form.getInputProps('first_name')}/>
+        <TextInput label="last_name" placeholder="Behaman"  {...form.getInputProps('last_name')}/>
+          <TextInput label="username" placeholder="username" {...form.getInputProps('username')} />
+          <TextInput label="address"  placeholder="Tehran, Iran" {...form.getInputProps('address')} />
+          <TextInput label="phone_number" type='tel' placeholder="+98123456789"  {...form.getInputProps('phone_number')} />
+          <TextInput label="email" type="email" placeholder="example@gmail.com"  {...form.getInputProps('email')}/>
           <Select
             mt="md"
             withinPortal
             data={['Under Graduate','Bachlor', 'Master', 'PHD']}
             placeholder="Bachlor"
             label="Degree"
+            {...form.getInputProps('degree')}
           />          
           <Select
             mt="md"
@@ -75,6 +61,7 @@ const InsertUser = () => {
             data={['Male', 'Female']}
             placeholder="Male"
             label="Gender"
+            {...form.getInputProps('gender')}
           />
           <Checkbox
             onChange={() => {}}
@@ -84,54 +71,42 @@ const InsertUser = () => {
             size="md"
             mr="xl"
             styles={{ input: { cursor: 'pointer' } }}
+            {...form.getInputProps('is_working')}
           />
           <DatePickerInput
             mt="md"
             popoverProps={{ withinPortal: true }}
             label="Bitrh Date"
-            placeholder="Your Birth DateWhen will you leave?"
+            placeholder="Your Birth Date"
             clearable={false}
+            {...form.getInputProps('birth_date')}
           />
           <Button mt='lg' type='submit'>Submit</Button>
   </form>
 }
 
-  // "title": "",
-  // "description": "",
-  // "required_level": null,
-  // "required_gender": null,
-  // "benefit": "",
-  // "is_remote": false,
-  // "recommended_salary": null,
-  // "address": "",
-  // "required_graduation": null,
-  // "is_active": false,
-  // "employer": null,
-  // "skills": []
 const InsertJob = () => {
   const form = useForm({
     initialValues: {
-      job: {
-        title: '',
-        description: '',
-        required_gender: "",
-        address:"",
-        required_gender:"male",
-        is_remote:false,
-      },
+      title: '',
+      description: '',
+      address:"",
+      required_gender:"None",
+      is_remote:false,
     }
   });
   
-  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
-          <TextInput label="title" placeholder="title"  />
-          <TextInput label="description" placeholder="description"  />
-          <TextInput label="address"  placeholder="Tehran, Iran"  />    
+  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+          <TextInput label="title" placeholder="title"  {...form.getInputProps('title')} />
+          <TextInput label="description" placeholder="description"  {...form.getInputProps('description')} />
+          <TextInput label="address"  placeholder="Tehran, Iran"  {...form.getInputProps('address')} />    
           <Select
             mt="md"
             withinPortal
             data={['None', 'Male', 'Female']}
             placeholder="Male"
-            label="Gender"
+            label="Required gender"
+            {...form.getInputProps('required_gender')}
           />
           <Checkbox
             onChange={() => {}}
@@ -141,6 +116,7 @@ const InsertJob = () => {
             size="md"
             mr="xl"
             styles={{ input: { cursor: 'pointer' } }}
+            {...form.getInputProps('is_remote')}
           />
 
           <Button mt='lg' type='submit'>Submit</Button>
@@ -148,6 +124,14 @@ const InsertJob = () => {
 
 }
 let skills = ['New', 'Backend', 'Frontend', 'Django', 'React', 'Devops']
+function find_skill_id(skill_name){
+  for(let i=0;i<skills.length;i++){
+    if(skills[i]===skill_name){
+      return i+1
+    }
+  }
+  return -1
+}
 
 const AddRequirement = () => {
   const form = useForm({
@@ -159,16 +143,16 @@ const AddRequirement = () => {
     }
   });
 
-  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
-          <TextInput label="job id" placeholder="job id"  />
+  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+          <TextInput label="job id" placeholder="job id" {...form.getInputProps('job_id')} />
           <Select
             mt="md"
             withinPortal
             data={skills}
             placeholder="Django"
             label="skills"
+            {...form.getInputProps('skill_name')}
           />
-          
           <Button mt='lg' type='submit'>Submit</Button>
   </form>
 
@@ -176,48 +160,46 @@ const AddRequirement = () => {
 const AddSkill = () => {
   const form = useForm({
     initialValues: {
-      job: {
-        user_id: 0,
-        skill_name: ""
-      },
+      user_id: 0,
+      skill_name: ""
     }
   });
 
-  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
-          <TextInput label="user id" placeholder="user id"  />
-          <Select
-            mt="md"
-            withinPortal
-            data={skills}
-            placeholder="Django"
-            label="skills"
-          />
-          
-          <Button mt='lg' type='submit'>Submit</Button>
+  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <TextInput label="user id" placeholder="user id"  {...form.getInputProps('user_id')}/>
+    <Select
+      mt="md"
+      withinPortal
+      data={skills}
+      placeholder="Django"
+      label="skills"
+      {...form.getInputProps('skill_name')}
+    />
+    
+    <Button mt='lg' type='submit'>Submit</Button>
   </form>
 
 }
 const GetJobs = () => {
   const form = useForm({
     initialValues: {
-      user: {
-        user_id: 0,
-        skill_name: ""
-      },
+      user_id: 0,
+      skill_name: ""
     }
   });
 
-  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
-          <TextInput label="user id" placeholder="user id"  />
-          <Select
-            mt="md"
-            withinPortal
-            data={skills}
-            placeholder="Django"
-            label="skills"
-          />
-          
-          <Button mt='lg' type='submit'>Retrieve</Button>
+  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <TextInput label="user id" placeholder="user id" {...form.getInputProps('user_id')} />
+    <Select
+      mt="md"
+      withinPortal
+      data={skills}
+      placeholder="Django"
+      label="skills"
+      {...form.getInputProps('skill_name')}
+    />
+    
+    <Button mt='lg' type='submit'>Retrieve</Button>
   </form>
 
 }
@@ -234,9 +216,6 @@ const mapViewToComponents = {
 function App() {
   const [view, setView] = useState(NONE);
 
-  const handleClick = () => {
-    setView("NONE");
-  };
   const Component = mapViewToComponents[view]
   return (
     <Component handleUpdateView={setView}/>
