@@ -10,6 +10,7 @@ const ADD_REQUIREMENT = "ADD_REQUIREMENT"
 const ADD_SKILL = "ADD_SKILL"
 const GET_JOB = "GET_JOB"
 
+const BASE_URL = "http://localhost:8000/api/"
 
 const NonView = ({handleUpdateView}) => {
   return (
@@ -31,6 +32,7 @@ const InsertUser = () => {
       first_name: '',
       last_name: '',
       username: "",
+      password: "",
       address:"",
       gender:"male",
       is_working:false,
@@ -40,10 +42,31 @@ const InsertUser = () => {
     }
   });
   
-  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+  return <form onSubmit={form.onSubmit( async (values) => {
+    let url = BASE_URL + "users/"
+    // values.gender must be mapped to 0 or 1
+    values.gender = values.gender == "Male" ? 0 : 1
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+    let data = await response.json()
+    // checking status code
+    if (response.status != 201){
+      alert('fail')
+    } else{
+      alert('user inserted with id: ' + data.id)
+    }
+    console.log(data)
+    
+  })}>
           <TextInput label="first_name" placeholder="Folan"  {...form.getInputProps('first_name')}/>
-        <TextInput label="last_name" placeholder="Behaman"  {...form.getInputProps('last_name')}/>
+          <TextInput label="last_name" placeholder="Behaman"  {...form.getInputProps('last_name')}/>
           <TextInput label="username" placeholder="username" {...form.getInputProps('username')} />
+          <TextInput label="password" type = 'password' placeholder="password" {...form.getInputProps('password')} />
           <TextInput label="address"  placeholder="Tehran, Iran" {...form.getInputProps('address')} />
           <TextInput label="phone_number" type='tel' placeholder="+98123456789"  {...form.getInputProps('phone_number')} />
           <TextInput label="email" type="email" placeholder="example@gmail.com"  {...form.getInputProps('email')}/>
