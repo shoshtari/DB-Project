@@ -41,7 +41,6 @@ const NonView = ({handleUpdateView}) => {
 const InsertUser = () => {
   const form = useForm({
     initialValues: {
-      email: '',
       user: {
         first_name: '',
         last_name: '',
@@ -96,8 +95,57 @@ const InsertUser = () => {
           <Button mt='lg' type='submit'>Submit</Button>
   </form>
 }
+
+  // "title": "",
+  // "description": "",
+  // "required_level": null,
+  // "required_gender": null,
+  // "benefit": "",
+  // "is_remote": false,
+  // "recommended_salary": null,
+  // "address": "",
+  // "required_graduation": null,
+  // "is_active": false,
+  // "employer": null,
+  // "skills": []
 const InsertJob = () => {
-  return INSERT_JOB
+  const form = useForm({
+    initialValues: {
+      job: {
+        title: '',
+        description: '',
+        required_gender: "",
+        address:"",
+        required_gender:"male",
+        is_remote:false,
+      },
+    }
+  });
+  
+  return <form onSubmit={(e)=>{e.preventDefault();console.log(form.getInputProps())}}>
+          <TextInput label="title" placeholder="title"  />
+          <TextInput label="description" placeholder="description"  />
+          <TextInput label="address"  placeholder="Tehran, Iran"  />    
+          <Select
+            mt="md"
+            withinPortal
+            data={['None', 'Male', 'Female']}
+            placeholder="Male"
+            label="Gender"
+          />
+          <Checkbox
+            onChange={() => {}}
+            mt="md"
+            label="Is Remote"
+            tabIndex={-1}
+            size="md"
+            mr="xl"
+            styles={{ input: { cursor: 'pointer' } }}
+          />
+
+          <Button mt='lg' type='submit'>Submit</Button>
+  </form>
+
 }
 const AddRequirement = () => {
   return ADD_REQUIREMENT
