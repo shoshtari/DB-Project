@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Box, Button,Checkbox,Select, TextInput, Table } from '@mantine/core';
+import {Box, Button,Checkbox,Select, MultiSelect, TextInput, Table } from '@mantine/core';
 
 import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
@@ -215,18 +215,20 @@ const AddRequirement = () => {
   const form = useForm({
     initialValues: {
       id: 0,
-      skill_name: ""
+      skill_names: ""
     }
   });
 
   let skills = get_skills()
   return <form onSubmit={form.onSubmit( async (values) => {
     let url = BASE_URL + "jobs/" + values.id + "/"
-    let job = await fetch(url).then(res => res.json())    
-    let skill_id = find_skill_id(values.skill_name)
-    console.log(job)
-    job.skills.push(skill_id)
-    console.log(job.skills)
+    let job = await fetch(url).then(res => res.json())  
+    for(let i=0;i<values.skill_names.length;i++){
+      
+      let skill_id = find_skill_id(values.skill_names[i])
+      job.skills.push(skill_id)
+    }
+
     let response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -245,13 +247,13 @@ const AddRequirement = () => {
     console.log(data)
   })}>   
           <TextInput label="job id" placeholder="job id" {...form.getInputProps('id')} />
-          <Select
+          <MultiSelect
             mt="md"
             withinPortal
             data={skills}
             placeholder="Django"
             label="skills"
-            {...form.getInputProps('skill_name')}
+            {...form.getInputProps('skill_names')}
           />
           <Button mt='lg' type='submit'>Submit</Button>
   </form>
@@ -262,7 +264,7 @@ const AddSkill = () => {
   const form = useForm({
     initialValues: {
       id: 0,
-      skill_name: ""
+      skill_names: ""
     }
   });
   let skills = get_skills()
@@ -271,10 +273,11 @@ const AddSkill = () => {
     let url = BASE_URL + "users/" + values.id + "/"
     let user = await fetch(url).then(res => res.json())    
     // user.skills = user.skills + ',' + find_skill_id(values.skill_name)
-    let skill_id = find_skill_id(values.skill_name)
+    for(let i=0;i<values.skill_names.length;i++){
+      let skill_id = find_skill_id(values.skill_names[i])
+      user.skills.push(skill_id)
+    }
     // appending skill id
-    user.skills.push(skill_id)
-    console.log(user.skills)
     let response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -293,13 +296,13 @@ const AddSkill = () => {
     console.log(data)
   })}>   
     <TextInput label="user id" placeholder="user id"  {...form.getInputProps('id')}/>
-    <Select
+    <MultiSelect
       mt="md"
       withinPortal
       data={skills}
       placeholder="Django"
       label="skills"
-      {...form.getInputProps('skill_name')}
+      {...form.getInputProps('skill_names')}
     />
     
     <Button mt='lg' type='submit'>Submit</Button>
