@@ -21,11 +21,11 @@ class Skill(models.Model):
 
 class Job(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
-    skills = models.ManyToManyField(Skill)
+    description = models.TextField(null=True, blank=True)
+    skills = models.ManyToManyField(Skill,null=True, blank=True)
     required_level = models.IntegerField(choices=LEVEL_CHOICES, default=8)
     required_gender = models.IntegerField(choices=GENDER_CHOICES, default=0)
-    benefit = models.TextField()
+    benefit = models.TextField(null=True, blank=True)
     is_remote = models.BooleanField(default=False)
     recommended_salary = models.IntegerField(default=0)
     address = models.CharField(max_length=100, null=True, blank=True)
