@@ -181,8 +181,19 @@ const InsertJob = () => {
   </form>
 
 }
-let skills = ['New', 'Backend', 'Frontend', 'Django', 'React', 'Devops']
+function get_skills(){
+  let url = BASE_URL + "skills/"
+  let skills = []
+  fetch(url).then(res => res.json()).then(data => {
+    data.forEach(skill => {
+      skills.push(skill.name)
+    })
+  })
+  return skills
+}
+
 function find_skill_id(skill_name){
+  let skills = get_skills()
   for(let i=0;i<skills.length;i++){
     if(skills[i]===skill_name){
       return i+1
@@ -199,6 +210,7 @@ const AddRequirement = () => {
     }
   });
 
+  let skills = get_skills()
   return <form onSubmit={form.onSubmit( async (values) => {
     let url = BASE_URL + "jobs/" + values.id + "/"
     let job = await fetch(url).then(res => res.json())    
@@ -244,6 +256,7 @@ const AddSkill = () => {
       skill_name: ""
     }
   });
+  let skills = get_skills()
 
   return <form onSubmit={form.onSubmit( async (values) => {
     let url = BASE_URL + "users/" + values.id + "/"
@@ -315,7 +328,6 @@ const GetJobs = () => {
 }
 
 const ShowJobs = ({jobs}) => {
-  console.log("JOBS", jobs)
   if (jobs.length==0){
     alert("there is no job")
   }
