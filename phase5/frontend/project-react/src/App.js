@@ -25,7 +25,6 @@ const NonView = ({handleUpdateView}) => {
 
 }
 
-
 const InsertUser = () => {
   const form = useForm({
     initialValues: {
@@ -38,14 +37,18 @@ const InsertUser = () => {
       is_working:false,
       phone_number:"",
       email_address:"",
-      degree:""
+      degree:"",
+      birth_date:"",
     }
   });
   
   return <form onSubmit={form.onSubmit( async (values) => {
     let url = BASE_URL + "users/"
-    // values.gender must be mapped to 0 or 1
-    values.gender = values.gender == "Male" ? 0 : 1
+    values.gender = values.gender === "Male" ? 0 : 1
+    // converting values birth date
+    values.birth_date = values.birth_date.toISOString().split('T')[0]
+    // console.log(values.birth_date.toISOString().split('T')[0])
+
     let response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -55,13 +58,12 @@ const InsertUser = () => {
     })
     let data = await response.json()
     // checking status code
-    if (response.status != 201){
-      alert('fail')
+    if (response.status !== 201){
+      // alert('fail')
     } else{
-      alert('user inserted with id: ' + data.id)
+      // alert('user inserted with id: ' + data.id)
     }
     console.log(data)
-    
   })}>
           <TextInput label="first_name" placeholder="Folan"  {...form.getInputProps('first_name')}/>
           <TextInput label="last_name" placeholder="Behaman"  {...form.getInputProps('last_name')}/>
@@ -101,7 +103,7 @@ const InsertUser = () => {
             popoverProps={{ withinPortal: true }}
             label="Bitrh Date"
             placeholder="Your Birth Date"
-            clearable={false}
+            clearable={true}
             {...form.getInputProps('birth_date')}
           />
           <Button mt='lg' type='submit'>Submit</Button>
@@ -119,7 +121,26 @@ const InsertJob = () => {
     }
   });
   
-  return <form onSubmit={form.onSubmit((values) => console.log(values))}>
+  return <form onSubmit={form.onSubmit( async (values) => {
+    let url = BASE_URL + "jobs/"
+    values.required_gender = values.required_gender === "Male" ? 0 : 1
+
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+    let data = await response.json()
+    // checking status code
+    if (response.status !== 201){
+      alert('fail')
+    } else{
+      alert('job inserted with id: ' + job.id)
+    }
+    console.log(data)
+  })}>          
           <TextInput label="title" placeholder="title"  {...form.getInputProps('title')} />
           <TextInput label="description" placeholder="description"  {...form.getInputProps('description')} />
           <TextInput label="address"  placeholder="Tehran, Iran"  {...form.getInputProps('address')} />    
